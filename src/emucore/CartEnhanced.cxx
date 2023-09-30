@@ -69,7 +69,7 @@ void CartridgeEnhanced::install(System& system)
     myRamBankShift = myBankShift - 1;
 
   // limit banked RAM size to the size of one RAM bank
-  const uInt16 ramSize = myRamBankCount > 0 ? 1 << myRamBankShift :
+  const uInt16 ramSize = (myRamBankCount > 0) ? 1 << myRamBankShift :
     static_cast<uInt16>(myRamSize);
 
   // calculate bank switching and RAM sizes and masks
@@ -77,12 +77,12 @@ void CartridgeEnhanced::install(System& system)
   myBankMask = myBankSize - 1;                      // e.g. = 0x0FFF
   myBankSegs = calcNumSegments();
   // ROM has an offset if RAM inside a bank (e.g. for F8SC)
-  myRomOffset = myRamBankCount > 0U ? 0U : static_cast<uInt16>(myRamSize * 2);
+  myRomOffset = (myRamBankCount > 0U) ? 0U : static_cast<uInt16>(myRamSize * 2);
   myRamMask = ramSize - 1;                          // e.g. = 0xFFFF (doesn't matter for RAM size 0)
   myWriteOffset = myRamWpHigh ? ramSize : 0;        // e.g. = 0x0000
   myReadOffset  = myRamWpHigh ? 0 : ramSize;        // e.g. = 0x0080
   // Allocate more space only if RAM has its own bank(s)
-  createRomAccessArrays(mySize + (myRomOffset > 0 ? 0 : myRamSize));
+  createRomAccessArrays(mySize + ((myRomOffset > 0) ? 0 : myRamSize));
 
   // Allocate array for the segment's current bank offset
   myCurrentSegOffset = make_unique<uInt32[]>(myBankSegs);
@@ -250,9 +250,9 @@ bool CartridgeEnhanced::bank(uInt16 bank, uInt16 segment)
     const uInt16 plusROMAddr = (myPlusROM->isValid()) ? (0x1FF0 & ~System::PAGE_MASK) : 0xFFFF;
 
     // Skip extra RAM; if existing it is only mapped into first segment
-    const uInt16 fromAddr = (ROM_OFFSET + segmentOffset + (segment == 0 ? myRomOffset : 0)) & ~System::PAGE_MASK;
+    const uInt16 fromAddr = (ROM_OFFSET + segmentOffset + ((segment == 0) ? myRomOffset : 0)) & ~System::PAGE_MASK;
     // for ROMs < 4_KB, the whole address space will be mapped.
-    const uInt16 toAddr   = (ROM_OFFSET + segmentOffset + (mySize < 4_KB ? 4_KB : myBankSize)) & ~System::PAGE_MASK;
+    const uInt16 toAddr   = (ROM_OFFSET + segmentOffset + ((mySize < 4_KB) ? 4_KB : myBankSize)) & ~System::PAGE_MASK;
 
     System::PageAccess access(this, System::PageAccessType::READ);
     // Setup the page access methods for the current bank
@@ -356,7 +356,7 @@ uInt16 CartridgeEnhanced::calcNumSegments() const
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 bool CartridgeEnhanced::isRamBank(uInt16 address) const
 {
-  return myRamBankCount > 0 ? getBank(address) >= romBankCount() : false;
+  return (myRamBankCount > 0) ? getBank(address) >= romBankCount() : false;
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

@@ -24,7 +24,7 @@ Cartridge3E::Cartridge3E(const ByteBuffer& image, size_t size,
                          string_view md5, const Settings& settings,
                          size_t bsSize)
   : CartridgeEnhanced(image, size, md5, settings,
-                      bsSize == 0 ? BSPF::nextMultipleOf(size, 2_KB) : bsSize)
+                      (bsSize == 0) ? BSPF::nextMultipleOf(size, 2_KB) : bsSize)
 {
   myBankShift = BANK_SHIFT;
   myRamSize = RAM_SIZE;
