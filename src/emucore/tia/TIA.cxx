@@ -1105,7 +1105,7 @@ bool TIA::toggleBit(TIABit b, uInt8 mode)
 bool TIA::toggleBits(bool toggle)
 {
   toggleBit(static_cast<TIABit>(0xFF), toggle
-                          ? mySpriteEnabledBits > 0 ? 0 : 1
+                          ? (mySpriteEnabledBits > 0) ? 0 : 1
                           : mySpriteEnabledBits);
 
   return mySpriteEnabledBits;
@@ -1150,7 +1150,7 @@ bool TIA::toggleCollision(TIABit b, uInt8 mode)
 bool TIA::toggleCollisions(bool toggle)
 {
   toggleCollision(static_cast<TIABit>(0xFF), toggle
-                                ? myCollisionsEnabledBits > 0 ? 0 : 1
+                                ? (myCollisionsEnabledBits > 0) ? 0 : 1
                                 : myCollisionsEnabledBits);
 
   return myCollisionsEnabledBits;
@@ -1159,8 +1159,8 @@ bool TIA::toggleCollisions(bool toggle)
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 bool TIA::enableFixedColors(bool enable)
 {
-  const int timing = myTimingProvider() == ConsoleTiming::ntsc ? 0
-    : myTimingProvider() == ConsoleTiming::pal ? 1 : 2;
+  const int timing = (myTimingProvider() == ConsoleTiming::ntsc) ? 0
+    : (myTimingProvider() == ConsoleTiming::pal) ? 1 : 2;
 
   myMissile0.setDebugColor(myFixedColorPalette[timing][FixedObject::M0]);
   myMissile1.setDebugColor(myFixedColorPalette[timing][FixedObject::M1]);
@@ -1325,7 +1325,7 @@ TIA& TIA::updateScanlineByStep()
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 uInt8 TIA::registerValue(uInt8 reg) const
 {
-  return reg < 64 ? myShadowRegisters[reg] : 0;
+  return (reg < 64) ? myShadowRegisters[reg] : 0;
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -1451,7 +1451,7 @@ FORCE_INLINE void TIA::tickMovement()
 
   if ((myHctr & 0x03) == 0) {
     const bool hblank = myHstate == HState::blank;
-    const uInt8 movementCounter = myMovementClock > 15 ? 0 : myMovementClock;
+    const uInt8 movementCounter = (myMovementClock > 15) ? 0 : myMovementClock;
 
     myMissile0.movementTick(movementCounter, myHctr, hblank);
     myMissile1.movementTick(movementCounter, myHctr, hblank);
@@ -1518,7 +1518,7 @@ void TIA::tickHframe()
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 void TIA::applyRsync()
 {
-  const uInt32 x = myHctr > TIAConstants::H_BLANK_CLOCKS
+  const uInt32 x = (myHctr > TIAConstants::H_BLANK_CLOCKS)
       ? myHctr - TIAConstants::H_BLANK_CLOCKS : 0;
 
   myHctrDelta = TIAConstants::H_CLOCKS - 3 - myHctr;
@@ -1901,8 +1901,8 @@ void TIA::updateAnalogReadout(uInt8 idx)
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 uInt8 TIA::resxCounter()
 {
-  return myHstate == HState::blank ?
-    (myHctr >= resxLateHblankThreshold ? ResxCounter::lateHblank : ResxCounter::hblank) : ResxCounter::frame;
+  return (myHstate == HState::blank) ?
+    ((myHctr >= resxLateHblankThreshold) ? ResxCounter::lateHblank : ResxCounter::hblank) : ResxCounter::frame;
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
