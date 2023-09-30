@@ -127,7 +127,7 @@ void StateManager::toggleTimeMachine()
 {
   const bool devSettings = myOSystem.settings().getBool("dev.settings");
 
-  myActiveMode = myActiveMode == Mode::TimeMachine ? Mode::Off : Mode::TimeMachine;
+  myActiveMode = (myActiveMode == Mode::TimeMachine) ? Mode::Off : Mode::TimeMachine;
   if(myActiveMode == Mode::TimeMachine)
     myOSystem.frameBuffer().showTextMessage("Time Machine enabled");
   else

@@ -394,7 +394,7 @@ string RewindManager::loadState(Int64 startCycles, uInt32 numStates)
   stringstream message;
 
   if(diff)
-    message << (diff > 0 ? "Rewind" : "Unwind") << " " << getUnitString(diff);
+    message << ((diff > 0) ? "Rewind" : "Unwind") << " " << getUnitString(diff);
   else
     message << "No wind";
   message << " [" << myStateList.currentIdx() << "/" << myStateList.size() << "]";

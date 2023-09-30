@@ -21,7 +21,7 @@
 namespace {
   constexpr uInt32 lboundInt(int x, int defaultValue)
   {
-    return x <= 0 ? defaultValue : x;
+    return (x <= 0) ? defaultValue : x;
   }
 
   constexpr AudioSettings::Preset normalizedPreset(int numericPreset)

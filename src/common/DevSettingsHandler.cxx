@@ -41,7 +41,7 @@ void DevSettingsHandler::loadSettings(SettingsSet set)
 
   myFrameStats[set] = settings.getBool(prefix + "stats");
   myDetectedInfo[set] = settings.getBool(prefix + "detectedinfo");
-  myConsole[set] = settings.getString(prefix + "console") == "7800" ? 1 : 0;
+  myConsole[set] = (settings.getString(prefix + "console") == "7800") ? 1 : 0;
   // Randomization
   myRandomBank[set] = settings.getBool(prefix + "bankrandom");
   myRandomizeTIA[set] = settings.getBool(prefix + "tiarandom");
@@ -98,7 +98,7 @@ void DevSettingsHandler::saveSettings(SettingsSet set)
 
   settings.setValue(prefix + "stats", myFrameStats[set]);
   settings.setValue(prefix + "detectedinfo", myDetectedInfo[set]);
-  settings.setValue(prefix + "console", myConsole[set] == 1 ? "7800" : "2600");
+  settings.setValue(prefix + "console", (myConsole[set] == 1) ? "7800" : "2600");
   if(myOSystem.hasConsole())
     myOSystem.eventHandler().set7800Mode();
 

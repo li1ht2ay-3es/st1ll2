@@ -52,7 +52,7 @@ namespace {
       mask &= ~mod;
     }
 
-    return serializedMask.size() == 1 ? serializedMask.at(0) : serializedMask;
+    return (serializedMask.size() == 1) ? serializedMask.at(0) : serializedMask;
   }
 
   int deserializeModkeyMask(const json& serializedMask)

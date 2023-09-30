@@ -109,7 +109,7 @@ void PaletteHandler::showAdjustableMessage()
     const ConsoleTiming timing = myOSystem.console().timing();
     const bool isNTSC = timing == ConsoleTiming::ntsc;
     const float value =
-        myOSystem.console().timing() == ConsoleTiming::pal ? myPhasePAL : myPhaseNTSC;
+        (myOSystem.console().timing() == ConsoleTiming::pal) ? myPhasePAL : myPhaseNTSC;
     buf << std::fixed << std::setprecision(1) << value << DEGREE;
     myOSystem.frameBuffer().showGaugeMessage(
         "Palette phase shift", buf.str(), value,
