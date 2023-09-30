@@ -101,7 +101,7 @@ class LinkedObjectPool
     */
     void moveToPrevious() {
       if(currentIsValid())
-        myCurrent = myCurrent == myList.begin() ? myList.end() : std::prev(myCurrent, 1);
+        myCurrent = (myCurrent == myList.begin()) ? myList.end() : std::prev(myCurrent, 1);
     }
 
     /**
@@ -266,7 +266,7 @@ class LinkedObjectPool
 
     friend ostream& operator<<(ostream& os, const LinkedObjectPool<T>& p) {
       for(const auto& i: p.myList)
-        os << i << (p.current() == i ? "* " : "  ");
+        os << i << ((p.current() == i) ? "* " : "  ");
       return os;
     }
 

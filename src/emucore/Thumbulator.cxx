@@ -33,6 +33,37 @@ using Common::Base;
 // #define THUMB_DISS
 // #define THUMB_DBUG
 
+#define THUMB_LOG
+#if defined(THUMB_LOG)
+#include <stdio.h>
+
+static unsigned char thumb_map[0x400000 * 2];
+static unsigned int thumb_map_flag;
+static FILE *thumb_fp;
+
+void THUMB_LOG_OP(uInt32 address, uInt16 opcode)
+{
+	uInt32 map_addr = address;
+
+	if(address >= 0x00000000 && address < 0x40000000) { map_addr += 0x000000; }
+	if(address >= 0x40000000 && address < 0x80000000) { map_addr += 0x400000; }
+	map_addr &= 0x3fffffff;
+ 
+	thumb_map_flag = 0;
+	if(thumb_map[map_addr] == 0) {
+		thumb_map[map_addr] = 1;
+		thumb_map_flag = 1;
+
+		if( !thumb_fp ) {
+			thumb_fp = fopen( "thumb-log.txt", "w" );
+		}
+
+		fprintf( thumb_fp, "PC [%X] %04X\n", address, opcode );
+		fflush( thumb_fp );
+	}
+}
+#endif
+
 #if defined(THUMB_DISS)
   #define DO_DISS(statement) statement
 #else
@@ -557,7 +588,7 @@ void Thumbulator::write32(uInt32 addr, uInt32 data)
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 FORCE_INLINE bool Thumbulator::isInvalidROM(uInt32 addr) const
 {
-  const uInt32 romStart = configuration == ConfigureFor::DPCplus ? 0xc00 : 0x750; // was 0x800
+  const uInt32 romStart = (configuration == ConfigureFor::DPCplus) ? 0xc00 : 0x750; // was 0x800
 
   return addr < romStart || addr >= romSize; // CDFJ+ allows ROM sizes larger than 32 KB
 }
@@ -1145,6 +1176,10 @@ FORCE_INLINE int Thumbulator::execute()  // NOLINT (readability-function-size)
   uInt32 pc = read_register(15);
 #else
   uInt32 pc = read_register(15) & ~1; // not checked and corrected in read_register
+#endif
+
+#ifdef THUMB_LOG
+  THUMB_LOG_OP(pc-2, fetch16(pc-2));
 #endif
 
   const uInt32 instructionPtr = pc - 2;

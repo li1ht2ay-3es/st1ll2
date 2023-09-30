@@ -157,7 +157,7 @@ class PhysicalJoystickHandler
     // Make this inline so it's as fast as possible
     const PhysicalJoystickPtr joy(int id) const {
       const auto& i = mySticks.find(id);
-      return i != mySticks.cend() ? i->second : nullptr;
+      return (i != mySticks.cend()) ? i->second : nullptr;
     }
 
     // Add stick to stick database
@@ -170,7 +170,7 @@ class PhysicalJoystickHandler
     friend ostream& operator<<(ostream& os, const PhysicalJoystickHandler& jh);
 
     JoyDir convertAxisValue(int value) const {
-      return value == int(JoyDir::NONE) ? JoyDir::NONE : value > 0 ? JoyDir::POS : JoyDir::NEG;
+      return (value == int(JoyDir::NONE)) ? JoyDir::NONE : (value > 0) ? JoyDir::POS : JoyDir::NEG;
     }
 
     // Handle regular axis events (besides special Stelladaptor handling)

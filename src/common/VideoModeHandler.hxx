@@ -60,8 +60,8 @@ class VideoModeHandler
       friend ostream& operator<<(ostream& os, const Mode& vm)
       {
         os << "image=" << vm.imageR << "  screen=" << vm.screenS
-           << "  stretch=" << (vm.stretch == Stretch::Preserve ? "preserve" :
-                               vm.stretch == Stretch::Fill ? "fill" : "none")
+           << "  stretch=" << ((vm.stretch == Stretch::Preserve) ? "preserve" :
+                               (vm.stretch == Stretch::Fill) ? "fill" : "none")
            << "  desc=" << vm.description << "  zoom=" << vm.zoom
            << "  fsIndex= " << vm.fsIndex;
         return os;

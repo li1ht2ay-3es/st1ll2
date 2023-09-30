@@ -87,6 +87,7 @@ static void update_input()
     case Controller::Type::Genesis:
       MASK_EVENT(Event::LeftJoystickFire5, pad, RETRO_DEVICE_ID_JOYPAD_A);
       [[fallthrough]];
+    case Controller::Type::QuadTari:
     case Controller::Type::Joystick:
       MASK_EVENT(Event::LeftJoystickLeft, pad, RETRO_DEVICE_ID_JOYPAD_LEFT);
       MASK_EVENT(Event::LeftJoystickRight, pad, RETRO_DEVICE_ID_JOYPAD_RIGHT);
@@ -144,6 +145,7 @@ static void update_input()
     case Controller::Type::Genesis:
       MASK_EVENT(Event::RightJoystickFire5, pad, RETRO_DEVICE_ID_JOYPAD_A);
       [[fallthrough]];
+    case Controller::Type::QuadTari:
     case Controller::Type::Joystick:
       MASK_EVENT(Event::RightJoystickLeft, pad, RETRO_DEVICE_ID_JOYPAD_LEFT);
       MASK_EVENT(Event::RightJoystickRight, pad, RETRO_DEVICE_ID_JOYPAD_RIGHT);
@@ -390,7 +392,7 @@ static void update_variables(bool init = false)
 
   if(!init && !system_reset)
   {
-    crop_left = setting_crop_hoverscan ? (stella.getVideoZoom() == 2 ? 26 : 8) : 0;
+    crop_left = setting_crop_hoverscan ? ((stella.getVideoZoom() == 2) ? 26 : 8) : 0;
 
     if(geometry_update) update_geometry();
   }
@@ -467,7 +469,7 @@ void retro_get_system_av_info(struct retro_system_av_info *info)
   info->timing.sample_rate    = stella.getAudioRate();
 
   info->geometry.base_width   = stella.getRenderWidth() - crop_left *
-      (stella.getVideoZoom() == 1 ? 2 : 1);
+      ((stella.getVideoZoom() == 1) ? 2 : 1);
   info->geometry.base_height  = stella.getRenderHeight();
 
   info->geometry.max_width    = stella.getVideoWidthMax();

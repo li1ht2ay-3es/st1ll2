@@ -200,7 +200,7 @@ namespace BSPF
       int i{};
       s = s.substr(s.find_first_not_of(" "));
       auto result = std::from_chars(s.data(), s.data() + s.size(), i, BASE);
-      return result.ec == std::errc() ? i : defaultValue;
+      return (result.ec == std::errc()) ? i : defaultValue;
     }
     catch(...) { return defaultValue; }
   }
@@ -222,7 +222,7 @@ namespace BSPF
   // Test whether two strings are equal (case insensitive)
   inline constexpr bool equalsIgnoreCase(string_view s1, string_view s2)
   {
-    return s1.size() == s2.size() ? (compareIgnoreCase(s1, s2) == 0) : false;
+    return (s1.size() == s2.size()) ? (compareIgnoreCase(s1, s2) == 0) : false;
   }
 
   // Test whether the first string starts with the second one (case insensitive)
@@ -251,7 +251,7 @@ namespace BSPF
       s2.cbegin(), s2.cend(), [](char ch1, char ch2) {
         return toupper(static_cast<uInt8>(ch1)) == toupper(static_cast<uInt8>(ch2));
       });
-    return pos == s1.cend() ? string::npos : pos - (s1.cbegin()+startpos);
+    return (pos == s1.cend()) ? string::npos : pos - (s1.cbegin()+startpos);
   }
 
   // Test whether the first string contains the second one (case insensitive)

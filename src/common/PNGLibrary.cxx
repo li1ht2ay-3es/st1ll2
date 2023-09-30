@@ -303,7 +303,7 @@ void PNGLibrary::takeSnapshot(uInt32 number)
   // Figure out the correct snapshot name
   string filename;
   const string sspath = myOSystem.snapshotSaveDir().getPath() +
-      (myOSystem.settings().getString("snapname") != "int"
+      ((myOSystem.settings().getString("snapname") != "int")
         ? myOSystem.romFile().getNameWithExt("")
         : myOSystem.console().properties().get(PropType::Cart_Name));
 
