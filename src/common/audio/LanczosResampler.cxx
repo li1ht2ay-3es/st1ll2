@@ -41,7 +41,7 @@ namespace {
   {
     // We calculate the sinc with double precision in order to compensate for precision loss
     // around zero
-    return x == 0.F ? 1 : static_cast<float>(
+    return (x == 0.F) ? 1 : static_cast<float>(
         sin(BSPF::PI_d * static_cast<double>(x)) / BSPF::PI_d / static_cast<double>(x)
     );
   }
