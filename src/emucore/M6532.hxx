@@ -129,6 +129,7 @@ class M6532 : public Device
       @return  Pointer to RAM array.
     */
     const uInt8* getRAM() const { return myRAM.data(); }
+    uInt8* getRAMWrite() { return myRAM.data(); }
 
   #ifdef DEBUGGER_SUPPORT
     /**

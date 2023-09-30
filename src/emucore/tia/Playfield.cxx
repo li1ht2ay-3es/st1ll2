@@ -101,7 +101,7 @@ void Playfield::pf2(uInt8 value)
 void Playfield::ctrlpf(uInt8 value)
 {
   const bool reflected = (value & 0x01) > 0;
-  const ColorMode colorMode = (value & 0x06) == 0x02 ? ColorMode::score : ColorMode::normal;
+  const ColorMode colorMode = ((value & 0x06) == 0x02) ? ColorMode::score : ColorMode::normal;
 
   if (myReflected == reflected && myColorMode == colorMode) return;
 
@@ -334,7 +334,7 @@ bool Playfield::load(Serializer& in)
 
     myColorMode = static_cast<ColorMode>(in.getByte());
     myScoreGlitch = in.getBool();
-    myScoreHaste = myColorMode == ColorMode::score && myScoreGlitch ? 1 : 0;
+    myScoreHaste = (myColorMode == ColorMode::score && myScoreGlitch) ? 1 : 0;
 
     myPattern = in.getInt();
     myEffectivePattern = in.getInt();

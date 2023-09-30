@@ -64,8 +64,8 @@ class AudioSettings
     static constexpr bool DEFAULT_ENABLED                           = true;
     static constexpr uInt32 DEFAULT_DPC_PITCH                       = 20000;
 
-    static constexpr int MAX_BUFFER_SIZE = 10;
-    static constexpr int MAX_HEADROOM    = 10;
+    static constexpr int MAX_BUFFER_SIZE = 128;
+    static constexpr int MAX_HEADROOM    = 64;
 
   public:
 

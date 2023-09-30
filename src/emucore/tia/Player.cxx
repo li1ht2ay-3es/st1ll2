@@ -127,7 +127,7 @@ void Player::nusiz(uInt8 value, bool hblank)
           if (delta < 4)
             setDivider(myDividerPending);
           else
-            myDividerChangeCounter = (delta < 5 ? 1 : 0);
+            myDividerChangeCounter = ((delta < 5) ? 1 : 0);
         } else {
           if (delta < 3)
             setDivider(myDividerPending);
@@ -349,7 +349,7 @@ void Player::updatePattern()
 void Player::setDivider(uInt8 divider)
 {
   myDivider = divider;
-  myRenderCounterTripPoint = divider == 1 ? 0 : 1;
+  myRenderCounterTripPoint = (divider == 1) ? 0 : 1;
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -386,7 +386,7 @@ uInt8 Player::getColor() const
 uInt8 Player::getPosition() const
 {
   // Wide players are shifted by one pixel to the right
-  const uInt8 shift = myDivider == 1 ? 0 : 1;
+  const uInt8 shift = (myDivider == 1) ? 0 : 1;
 
   // position =
   //    current playfield x +
@@ -406,7 +406,7 @@ void Player::setPosition(uInt8 newPosition)
 {
   myTIA->flushLineCache();
 
-  const uInt8 shift = myDivider == 1 ? 0 : 1;
+  const uInt8 shift = (myDivider == 1) ? 0 : 1;
 
   // See getPosition for an explanation
   myCounter = (317 - newPosition - Count::renderCounterOffset + shift + myTIA->getPosition()) % TIAConstants::H_PIXEL;
