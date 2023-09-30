@@ -54,11 +54,10 @@ jobs:
         CXX: ccache ${{ env.MINGW_CXX }}
       run: |
         make platform="win"
-        ls -a
 
 
 
     - uses: actions/upload-artifact@main
       with:
         name: stella_libretro_${{ matrix.arch }}
-        path: ${{ github.workspace }}/os/libretro/**.dll
+        path: ${{ github.workspace }}/src/os/libretro/**.dll
