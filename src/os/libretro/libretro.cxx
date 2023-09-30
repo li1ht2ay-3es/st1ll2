@@ -390,7 +390,7 @@ static void update_variables(bool init = false)
 
   if(!init && !system_reset)
   {
-    crop_left = setting_crop_hoverscan ? (stella.getVideoZoom() == 2 ? 26 : 8) : 0;
+    crop_left = setting_crop_hoverscan ? ((stella.getVideoZoom() == 2) ? 26 : 8) : 0;
 
     if(geometry_update) update_geometry();
   }
@@ -467,7 +467,7 @@ void retro_get_system_av_info(struct retro_system_av_info *info)
   info->timing.sample_rate    = stella.getAudioRate();
 
   info->geometry.base_width   = stella.getRenderWidth() - crop_left *
-      (stella.getVideoZoom() == 1 ? 2 : 1);
+      ((stella.getVideoZoom() == 1) ? 2 : 1);
   info->geometry.base_height  = stella.getRenderHeight();
 
   info->geometry.max_width    = stella.getVideoWidthMax();
