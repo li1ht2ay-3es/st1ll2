@@ -54,6 +54,7 @@ jobs:
         CXX: ccache ${{ env.MINGW_CXX }}
       run: |
         make platform="win"
+        ls -a
 
 
 
