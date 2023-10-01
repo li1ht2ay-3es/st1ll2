@@ -40,9 +40,9 @@ using Common::Base;
 static unsigned char thumb_map[0x400000 * 2];
 static unsigned int thumb_map_flag;
 
-void THUMB_MAP(address)
+void THUMB_MAP(uInt32 address)
 {
-	int new_addr = address;
+	uInt32 new_addr = address;
 	
 	if(address >= 0x00000000 && address < 0x40000000) { new_addr += 0x000000; }
 	if(address >= 0x40000000 && address < 0x80000000) { new_addr += 0x400000; }
