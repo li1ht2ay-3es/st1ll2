@@ -30,16 +30,38 @@ using Common::Base;
 
 // Uncomment the following to enable specific functionality
 // WARNING!!! This slows the runtime to a crawl
-// #define THUMB_DISS
-// #define THUMB_DBUG
+#define THUMB_MAP
+#define THUMB_DISS
+#define THUMB_DBUG
+
+#if defined(THUMB_MAP)
+  static unsigned char thumb_map[0x400000 * 2];
+  static unsigned int thumb_map_flag;
+
+  #define DO_MAP(address) \
+  {
+    int new_map = address; \
+    if(address >= 0x00000000 && address < 0x40000000) { new_map += 0x000000; } \
+    if(address >= 0x40000000 && address < 0x80000000) { new_map += 0x400000; } \
+	new_map &= 0x3fffffff; \
+    \
+    thumb_map_flag = 0; \
+    if(thumb_map[new_map] == 0) { thumb_map[new_map] = 1; thumb_map_flag = 1; } \
+  }
+
+  #define CHECK_MAP(statement) if(thumb_map_flag) { statement }
+#else
+  #define DO_MAP(address)
+  #define CHECK_MAP(statement)
+#endif
 
 #if defined(THUMB_DISS)
-  #define DO_DISS(statement) statement
+  #define DO_DISS(statement) CHECK_MAP(statement)
 #else
   #define DO_DISS(statement)
 #endif
 #if defined(THUMB_DBUG)
-  #define DO_DBUG(statement) statement
+  #define DO_DBUG(statement) CHECK_MAP(statement)
 #else
   #define DO_DBUG(statement)
 #endif
@@ -557,7 +579,7 @@ void Thumbulator::write32(uInt32 addr, uInt32 data)
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 FORCE_INLINE bool Thumbulator::isInvalidROM(uInt32 addr) const
 {
-  const uInt32 romStart = configuration == ConfigureFor::DPCplus ? 0xc00 : 0x750; // was 0x800
+  const uInt32 romStart = (configuration == ConfigureFor::DPCplus) ? 0xc00 : 0x750; // was 0x800
 
   return addr < romStart || addr >= romSize; // CDFJ+ allows ROM sizes larger than 32 KB
 }
@@ -1146,6 +1168,7 @@ FORCE_INLINE int Thumbulator::execute()  // NOLINT (readability-function-size)
 #else
   uInt32 pc = read_register(15) & ~1; // not checked and corrected in read_register
 #endif
+  THUMB_MAP(pc-2);
 
   const uInt32 instructionPtr = pc - 2;
   const uInt32 instructionPtr2 = instructionPtr >> 1;
