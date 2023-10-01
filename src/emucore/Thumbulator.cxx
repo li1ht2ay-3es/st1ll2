@@ -49,7 +49,7 @@ using Common::Base;
     if(thumb_map[new_map] == 0) { thumb_map[new_map] = 1; thumb_map_flag = 1; } \
   }
 
-  #define CHECK_MAP(statement) if(thumb_map_flag) { statement }
+  #define CHECK_MAP(statement) if(thumb_map_flag) { statement; }
 #else
   #define DO_MAP(address)
   #define CHECK_MAP(statement)
