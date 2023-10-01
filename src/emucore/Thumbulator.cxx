@@ -40,22 +40,22 @@ using Common::Base;
 static unsigned char thumb_map[0x400000 * 2];
 static unsigned int thumb_map_flag;
 
-void THUMB_MAP(uInt32 address)
-{
-	uInt32 new_addr = address;
-	
-	if(address >= 0x00000000 && address < 0x40000000) { new_addr += 0x000000; }
-	if(address >= 0x40000000 && address < 0x80000000) { new_addr += 0x400000; }
-	new_addr &= 0x3fffffff;
-
-	thumb_map_flag = 0;
-	if(thumb_map[new_addr] == 0) {
-		thumb_map[new_addr] = 1;
-		thumb_map_flag = 1;
-
-		printf( "PC [%X] %04X\n", new_addr, fetch16(address) );
-		fflush( stdout );
-	}
+#define THUMB_MAP(address) \
+{ \
+	uInt32 new_addr = address; \
+	 \
+	if(address >= 0x00000000 && address < 0x40000000) { new_addr += 0x000000; } \
+	if(address >= 0x40000000 && address < 0x80000000) { new_addr += 0x400000; } \
+	new_addr &= 0x3fffffff; \
+ \
+	thumb_map_flag = 0; \
+	if(thumb_map[new_addr] == 0) { \
+		thumb_map[new_addr] = 1; \
+		thumb_map_flag = 1; \
+ \
+		printf( "PC [%X] %04X\n", new_addr, fetch16(address) ); \
+		fflush( stdout ); \
+	} \
 }
 #endif
 
