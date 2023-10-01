@@ -35,7 +35,7 @@ using Common::Base;
 //#define THUMB_DBUG
 
 #if defined(THUMB_LOG)
-#inculde <stdio.h>
+#include <stdio.h>
 
 static unsigned char thumb_map[0x400000 * 2];
 static unsigned int thumb_map_flag;
