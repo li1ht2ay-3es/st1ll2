@@ -39,23 +39,28 @@ using Common::Base;
 
 static unsigned char thumb_map[0x400000 * 2];
 static unsigned int thumb_map_flag;
+static FILE *thumb_fp;
 
-#define THUMB_MAP(address) \
-{ \
-	uInt32 new_addr = address; \
-	 \
-	if(address >= 0x00000000 && address < 0x40000000) { new_addr += 0x000000; } \
-	if(address >= 0x40000000 && address < 0x80000000) { new_addr += 0x400000; } \
-	new_addr &= 0x3fffffff; \
- \
-	thumb_map_flag = 0; \
-	if(thumb_map[new_addr] == 0) { \
-		thumb_map[new_addr] = 1; \
-		thumb_map_flag = 1; \
- \
-		printf( "PC [%X] %04X\n", new_addr, fetch16(address) ); \
-		fflush( stdout ); \
-	} \
+void THUMB_LOG_OP(uInt32 address, uInt16 opcode)
+{
+	uInt32 map_addr = address;
+
+	if(address >= 0x00000000 && address < 0x40000000) { map_addr += 0x000000; }
+	if(address >= 0x40000000 && address < 0x80000000) { map_addr += 0x400000; }
+	map_addr &= 0x3fffffff;
+ 
+	thumb_map_flag = 0;
+	if(thumb_map[map_addr] == 0) {
+		thumb_map[map_addr] = 1;
+		thumb_map_flag = 1;
+
+		if( !thumb_fp ) {
+			thumb_fp = fopen( "thumb-log.txt", "w" );
+		}
+
+		fprintf( thumb_fp, "PC [%X] %04X\n", address, opcode );
+		fflush( thumb_fp );
+	}
 }
 #endif
 
@@ -1174,7 +1179,7 @@ FORCE_INLINE int Thumbulator::execute()  // NOLINT (readability-function-size)
 #endif
 
 #ifdef THUMB_LOG
-  THUMB_MAP(pc-2);
+  THUMB_LOG_OP(pc-2, fetch16(pc-2));
 #endif
 
   const uInt32 instructionPtr = pc - 2;
