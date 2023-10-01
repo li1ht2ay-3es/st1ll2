@@ -39,7 +39,7 @@ using Common::Base;
   static unsigned int thumb_map_flag;
 
   #define DO_MAP(address) \
-  {
+  { \
     int new_map = address; \
     if(address >= 0x00000000 && address < 0x40000000) { new_map += 0x000000; } \
     if(address >= 0x40000000 && address < 0x80000000) { new_map += 0x400000; } \
