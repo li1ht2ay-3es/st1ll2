@@ -30,10 +30,10 @@ using Common::Base;
 
 // Uncomment the following to enable specific functionality
 // WARNING!!! This slows the runtime to a crawl
-#define THUMB_LOG
-//#define THUMB_DISS
-//#define THUMB_DBUG
+// #define THUMB_DISS
+// #define THUMB_DBUG
 
+// #define THUMB_LOG
 #if defined(THUMB_LOG)
 #include <stdio.h>
 
