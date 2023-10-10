@@ -82,7 +82,7 @@ class StellaLIBRETRO
 
     void*  getVideoBuffer() const;
     uInt32 getVideoWidth() const {
-      return getVideoZoom() == 1 ? myOSystem->console().tia().width() : getVideoWidthMax();
+      return (getVideoZoom() == 1) ? myOSystem->console().tia().width() : getVideoWidthMax();
     }
     uInt32 getVideoHeight() const {
       return myOSystem->console().tia().height();
@@ -93,8 +93,8 @@ class StellaLIBRETRO
     constexpr uInt32 getVideoHeightMax() const { return 312; }
 
     uInt32 getRenderWidth() const {
-      return getVideoZoom() == 1 ? myOSystem->console().tia().width() * 2
-                                 : getVideoWidthMax();
+      return (getVideoZoom() == 1) ? myOSystem->console().tia().width() * 2
+                                   : getVideoWidthMax();
     }
     uInt32 getRenderHeight() const {
       return myOSystem->console().tia().height() * getVideoZoom();
