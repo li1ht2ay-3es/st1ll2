@@ -127,10 +127,6 @@ void StellaLIBRETRO::destroy()
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 void StellaLIBRETRO::runFrame()
 {
-  // write ram updates
-  for(int lcv = 0; lcv <= 127; lcv++)
-    myOSystem->console().system().m6532().poke(lcv | 0x80, system_ram[lcv]);
-
   // poll input right at vsync
   updateInput();
 
@@ -139,9 +135,6 @@ void StellaLIBRETRO::runFrame()
 
   // drain generated audio
   updateAudio();
-
-  // refresh ram copy
-  memcpy(system_ram, myOSystem->console().system().m6532().getRAM(), 128);
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -194,7 +187,6 @@ bool StellaLIBRETRO::loadState(const void* data, size_t size)
   if(!myOSystem->state().loadState(state))
     return false;
 
-  memcpy(system_ram, myOSystem->console().system().m6532().getRAM(), 128);
   return true;
 }
 
