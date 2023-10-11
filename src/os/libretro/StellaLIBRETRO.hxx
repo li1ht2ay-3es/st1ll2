@@ -62,7 +62,7 @@ class StellaLIBRETRO
     uInt32 getROMSize() const { return rom_size; }
     constexpr uInt32 getROMMax() const { return uInt32(Cartridge::maxSize()); }
 
-    uInt8* getRAM() { return myOSystem->console().system().m6532().getRAM(); }
+    uInt8* getRAM() { return myOSystem->console().system().m6532().getRAMWrite(); }
     constexpr uInt32 getRAMSize() const { return 128; }
 
     size_t getStateSize() const;
