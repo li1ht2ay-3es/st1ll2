@@ -48,7 +48,7 @@ jobs:
 
 
     - if: matrix.arch == "x86" || matrix.arch == "x64"
-	  working-directory: ${{ github.workspace }}/src/os/libretro
+      working-directory: ${{ github.workspace }}/src/os/libretro
       env:
         CC: ccache ${{ env.MINGW_CC }}
         CXX: ccache ${{ env.MINGW_CXX }}
@@ -58,7 +58,7 @@ jobs:
 
 
     - if: matrix.arch == "so64"
-	  working-directory: ${{ github.workspace }}/src/os/libretro
+      working-directory: ${{ github.workspace }}/src/os/libretro
       env:
         CC: ccache gcc
         CXX: ccache g++
@@ -71,5 +71,5 @@ jobs:
       with:
         name: stella_libretro_${{ matrix.arch }}
         path: |
-		  ${{ github.workspace }}/src/os/libretro/**.dll
-		  ${{ github.workspace }}/src/os/libretro/**.so
+          ${{ github.workspace }}/src/os/libretro/**.dll
+          ${{ github.workspace }}/src/os/libretro/**.so
