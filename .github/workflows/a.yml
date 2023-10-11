@@ -47,7 +47,7 @@ jobs:
 
 
 
-    - if: matrix.arch == "x86" || matrix.arch == "x64"
+    - if: matrix.arch == 'x86' || matrix.arch == 'x64'
       working-directory: ${{ github.workspace }}/src/os/libretro
       env:
         CC: ccache ${{ env.MINGW_CC }}
