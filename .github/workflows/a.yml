@@ -63,7 +63,7 @@ jobs:
         CC: ccache gcc
         CXX: ccache g++
       run: |
-        make platform="linux"
+        make platform="unix"
 
 
 
