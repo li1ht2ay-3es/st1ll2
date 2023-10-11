@@ -59,6 +59,8 @@ void AudioSettings::normalize(Settings& settings)
     case 44100:
     case 48000:
     case 96000:
+    case 192000:
+    case 384000:
       break;
 
     default:
@@ -67,6 +69,13 @@ void AudioSettings::normalize(Settings& settings)
   }
 
   switch (settings.getInt(SETTING_FRAGMENT_SIZE)) {
+    case 1:
+    case 2:
+    case 4:
+    case 8:
+    case 16:
+    case 32:
+    case 64:
     case 128:
     case 256:
     case 512:
