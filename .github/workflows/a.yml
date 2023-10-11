@@ -57,7 +57,7 @@ jobs:
 
 
 
-    - if: matrix.arch == "so64"
+    - if: matrix.arch == 'so64'
       working-directory: ${{ github.workspace }}/src/os/libretro
       env:
         CC: ccache gcc
