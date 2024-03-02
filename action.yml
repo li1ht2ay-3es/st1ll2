@@ -81,7 +81,7 @@ runs:
 
   - uses: actions/upload-artifact@main
     with:
-      name: stella_libretro_${{ matrix.arch }}
+      name: stella_libretro_${{ inputs.arch }}
       path: |
         ${{ github.workspace }}/src/os/libretro/**.dll
         ${{ github.workspace }}/src/os/libretro/**.so
